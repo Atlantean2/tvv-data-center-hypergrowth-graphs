@@ -1,4 +1,4 @@
-"""Builds TechVestVentures Data Center Hypergrowth Graphs from focus/data-center (8 PNGs; titles/source lines as drawn on the charts by scripts/build.py; bullets verbatim from the Risk Brief docx)."""
+"""Builds TechVestVentures Data Center Hypergrowth Graphs from focus/data-center (10 PNGs; titles/source lines as drawn on the charts by scripts/build.py; bullets verbatim from the Risk Brief docx)."""
 import os,sys,shutil,docx
 from docx.oxml.ns import qn
 sys.path.insert(0,'/workspace/risk-watcher/graphs-site');os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -17,9 +17,11 @@ C=[("01_iea_dc_electricity","Data-center electricity demand roughly doubles by 2
 ("05_debt_by_borrower","Who borrowed: hyperscaler bonds (blue) vs. neocloud/SPV/miner debt (red)","ai-industry-reviews.com (SEC filings), Jan 2025–Oct 2026.",["https://ai-industry-reviews.com/research/ai-data-center-debt-financing-statistics-2026/"],[7,8]),
 ("06_uncommenced_leases","Off-balance-sheet lease commitments: ~$1.2T and rising","Company 10-K/10-Q (ASC 842) via ahasignals.com, ccir.io; Oracle 10-Q Aug-26; WSJ Aug 2026 analysis.",["https://ahasignals.com/research/uncommenced-lease-commitments/","https://ccir.io/credit/commitments","https://www.sec.gov/Archives/edgar/data/1341439/000119312526389274/orcl-20260831.htm","https://www.wsj.com/tech/ai/why-big-techs-ai-spending-is-3-trillion-higher-than-it-seems-e1067bb2"],[3,4,5,22,27]),
 ("07_spreads_cds","Credit pricing of AI data-center risk (Oct 2026): bonds (blue), CDS (orange)","Bloomberg via aiinfracredit.com; securitasglobal.com; CNBC Oct 19 2026; Globe and Mail. Ratings: S&P.",["https://www.aiinfracredit.com/en/research/which-ai-debt-is-repricing","https://www.securitasglobal.com/risk-perspectives/oracle-cds-record-288-basis-points-ai-debt/","https://www.cnbc.com/2026/10/19/oracle-debt-faces-an-ai-stress-test-why-some-investors-arent-worried-.html","https://www.theglobeandmail.com/investing/article-are-ai-credit-cracks-a-warning-or-a-buy-signal/"],[9,19,20,21,25])]
+C+=[("08_hyperion_cost_timeline","Meta Hyperion (Richland Parish, LA): stated cost 5x in 19 months — partly scope (2 GW → 5 GW)","La. Governor release Dec 4 2024; Meta IR Oct 21 2025; Louisiana Economic Development & CNBC Jul 13 2026.",["https://gov.louisiana.gov/news/4697","https://investor.atmeta.com/investor-news/press-release-details/2025/Meta-Announces-Joint-Venture-with-Funds-Managed-by-Blue-Owl-Capital-to-Develop-Hyperion-Data-Center/default.aspx","https://www.opportunitylouisiana.gov/news/meta-commits-more-than-50-billion-for-north-louisiana-project-becoming-one-of-the-largest-data-centers-in-history"],[33,34,35]),
+("09_wsj_obs_vs_capex_approx","Off-balance-sheet obligations grew far faster than capex (APPROXIMATE, rebuilt from WSJ chart)","Rebuilt approximately from WSJ chart (WSJ analysis of company filings), Aug 17 2026.",["https://www.wsj.com/tech/ai/why-big-techs-ai-spending-is-3-trillion-higher-than-it-seems-e1067bb2"],[31,32,36,37])]
 C={c[0]:c for c in C}
 TABS=[("Q1","Capacity Growth",["01_iea_dc_electricity","02_epoch_capacity_growth"]),("Q2","Maps",["03a_map_us_campuses","03b_map_global_campuses"]),
-("Q3","Financing",["04_financing_mix","05_debt_by_borrower"]),("Q4","Off-Balance-Sheet Exposure",["06_uncommenced_leases"]),("Q5","Credit Stress",["07_spreads_cds"])]
+("Q3","Financing",["04_financing_mix","05_debt_by_borrower"]),("Q4","Off-Balance-Sheet Exposure",["06_uncommenced_leases"]),("Q5","Credit Stress",["07_spreads_cds"]),("Q6","Video Claims Checked",["09_wsj_obs_vs_capex_approx","08_hyperion_cost_timeline"])]
 common.CSS+="""
 figure.g{display:grid;grid-template-columns:minmax(0,7fr) minmax(260px,3fr);gap:22px;align-items:start;margin:0 0 40px}
 figure.g img{width:100%;height:auto;max-width:none}
