@@ -1,9 +1,12 @@
 """Builds TechVestVentures Data Center Hypergrowth Graphs from focus/data-center (10 PNGs; titles/source lines as drawn on the charts by scripts/build.py; bullets verbatim from the Risk Brief docx)."""
 import os,sys,shutil,docx
 from docx.oxml.ns import qn
-sys.path.insert(0,'/workspace/risk-watcher/graphs-site');os.chdir(os.path.dirname(os.path.abspath(__file__)))
-import common
+sys.path.insert(0,'/workspace/risk-watcher/graphs-site');sys.path.insert(0,'/workspace/risk-watcher');os.chdir(os.path.dirname(os.path.abspath(__file__)))
+import common,weekly_lib as WL
 from common import *
+# Added charts from the weekly Focus graph collections (focus/weekly/<date>/work/weekly.json, category 'Data Center'), placed by tab label
+WK={}
+for c in WL.charts("Data Center"): WK.setdefault(c["tabs"][0],[]).append(c)
 T="TechVestVentures Data Center Hypergrowth Graphs";F="/workspace/risk-watcher/focus/data-center"
 D=docx.Document(F+"/TVV Data Center Financing Risk Brief 2026-10-25.docx");PS=D.paragraphs
 def links(p): return [D.part.rels[h.get(qn('r:id'))].target_ref for h in p._p.iter(qn('w:hyperlink')) if h.get(qn('r:id'))]
@@ -28,7 +31,9 @@ figure.g img{width:100%;height:auto;max-width:none}
 figure.g figcaption{font-size:18px;line-height:1.5;margin:0}figure.g figcaption p{margin:0 0 12px}
 figure.g figcaption .t{font-weight:700;display:block;margin-bottom:8px}figure.g ul{margin:0 0 12px;padding-left:1.1em;font-size:16px}figure.g li{margin:4px 0}
 .view{border-left:4px solid #8B0000;background:#faf3f3;padding:10px 14px;margin:24px 0;font-size:17px;line-height:1.5}
-@media(max-width:1100px){figure.g{grid-template-columns:1fr}}"""
+@media(max-width:1100px){figure.g{grid-template-columns:1fr}}"""+WL.GRID_CSS
+for lab in WK:
+    if lab not in [t[1] for t in TABS]: TABS.append((f"Q{len(TABS)+1}",lab,[]))
 shutil.rmtree("issues",ignore_errors=True);os.makedirs("issues/img");tabs=[]
 def w(k,lab,body): open(f"issues/{k}.html","w").write(page(T,k,body));tabs.append((k,lab))
 assess=next(p.text for p in PS if p.text.startswith("Assessment:"))
@@ -38,8 +43,10 @@ for q,lab,fs in TABS:
         _,t,sl,us,bs=C[f];save_img(f"{F}/charts/{f}.png",f"issues/img/{f}.webp")
         b="<ul>"+"".join(bul(i) for i in bs)+"</ul>" if bs else ""
         figs.append(f'<figure class="g"><img src="img/{f}.webp" alt="{E(t)}" loading="lazy"><figcaption><span class="t">{E(t)}</span>{b}<p>Source: {E(sl)}<br>'+" ".join(f'<a href="{E(u)}">{E(u)}</a>' for u in us)+'</p></figcaption></figure>')
+    figs+=[WL.fig(c,E,save_img,head="") for c in WK.get(lab,[])]
     extra=f'<div class="view">{E(assess)}</div>' if q=="Q5" else ""
     w(q,f"{q} {lab}",f'<h2 class="desk">{q}. {E(lab)}</h2>'+"\n".join(figs)+extra)
 i=[k for k,p in enumerate(PS) if p.text=="Sources"][-1];src=[p.text for p in PS[i+1:] if p.text.startswith("https://")]
-w("sources","Sources",f'<h2 class="desk">Sources ({len(src)} links)</h2><p>From the TVV Data Center Financing Risk Brief, October 25, 2026.</p><ul class="src">'+"".join(f'<li><a href="{E(u)}">{E(u)}</a></li>' for u in src)+"</ul>")
+src+=[u for u in WL.sources("Data Center") if u not in src]
+w("sources","Sources",f'<h2 class="desk">Sources ({len(src)} links)</h2><p>From the TVV Data Center Financing Risk Brief, October 25, 2026, and the charts added October 30, 2026.</p><ul class="src">'+"".join(f'<li><a href="{E(u)}">{E(u)}</a></li>' for u in src)+"</ul>")
 index(T,tabs,"Sections",cur="datactr");print(len(src),"sources")
