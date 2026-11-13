@@ -48,5 +48,5 @@ for q,lab,fs in TABS:
     w(q,f"{q} {lab}",f'<h2 class="desk">{q}. {E(lab)}</h2>'+"\n".join(figs)+extra)
 i=[k for k,p in enumerate(PS) if p.text=="Sources"][-1];src=[p.text for p in PS[i+1:] if p.text.startswith("https://")]
 src+=[u for u in WL.sources("Data Center") if u not in src]
-w("sources","Sources",f'<h2 class="desk">Sources ({len(src)} links)</h2><p>From the TVV Data Center Financing Risk Brief, October 25, 2026, and the charts added October 30, 2026.</p><ul class="src">'+"".join(f'<li><a href="{E(u)}">{E(u)}</a></li>' for u in src)+"</ul>")
+w("sources","Sources",f'<h2 class="desk">Sources ({len(src)} links)</h2><p>From the TVV Data Center Financing Risk Brief, October 25, 2026, the charts added October 30, 2026, and later weekly Focus and Rand rebuilds (M48 neo-cloud drawdowns, Nov 10; M52 Nvidia trailing P/E, Nov 11; M58 Nvidia forward P/E, Nov 13).</p><ul class="src">'+"".join(f'<li><a href="{E(u)}">{E(u)}</a></li>' for u in src)+"</ul>")
 index(T,tabs,"Sections",cur="datactr");print(len(src),"sources")
