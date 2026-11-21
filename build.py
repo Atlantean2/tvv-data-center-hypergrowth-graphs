@@ -26,9 +26,9 @@ C={c[0]:c for c in C}
 TABS=[("Q1","Capacity Growth",["01_iea_dc_electricity","02_epoch_capacity_growth"]),("Q2","Maps",["03a_map_us_campuses","03b_map_global_campuses"]),
 ("Q3","Financing",["04_financing_mix","05_debt_by_borrower"]),("Q4","Off-Balance-Sheet Exposure",["06_uncommenced_leases"]),("Q5","Credit Stress",["07_spreads_cds"]),("Q6","Video Claims Checked",["09_wsj_obs_vs_capex_approx","08_hyperion_cost_timeline"])]
 common.CSS+="""
-figure.g{display:grid;grid-template-columns:minmax(0,7fr) minmax(260px,3fr);gap:22px;align-items:start;margin:0 0 40px}
+figure.g{display:block;margin:0 0 40px}
 figure.g img{width:100%;height:auto;max-width:none}
-figure.g figcaption{font-size:18px;line-height:1.5;margin:0}figure.g figcaption p{margin:0 0 12px}
+figure.g figcaption{font-size:18px;line-height:1.5;margin:10px 0 0}figure.g figcaption p{margin:0 0 12px}
 figure.g figcaption .t{font-weight:700;display:block;margin-bottom:8px}figure.g ul{margin:0 0 12px;padding-left:1.1em;font-size:16px}figure.g li{margin:4px 0}
 .view{border-left:4px solid #8B0000;background:#faf3f3;padding:10px 14px;margin:24px 0;font-size:17px;line-height:1.5}
 @media(max-width:1100px){figure.g{grid-template-columns:1fr}}"""+WL.GRID_CSS
